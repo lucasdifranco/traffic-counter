@@ -1,0 +1,37 @@
+# TrackTrack config tuned for this traffic scene.
+# Base: ultralytics/cfg/trackers/tracktrack.yaml (AGPL-3.0).
+# Changes vs default, to keep IDs stable through occlusion:
+#   track_buffer: 30 -> 90      keep lost tracks alive longer
+#   lost_match_thr: 0.0 -> 0.9  relaxed rebind pass for still-lost tracks
+#   with_reid: False -> True    appearance match to re-acquire the same ID
+# Measured on samples/clip.mp4 (60 s): distinct IDs 54 -> 37.
+
+tracker_type: tracktrack
+track_high_thresh: 0.6
+track_low_thresh: 0.25
+new_track_thresh: 0.7
+track_buffer: 90
+match_thresh: 0.7
+lost_match_thr: 0.9
+
+# Association weights
+iou_weight: 0.5
+reid_weight: 0.5
+conf_weight: 0.1
+angle_weight: 0.05
+
+# Iterative assignment
+penalty_p: 0.2
+penalty_q: 0.4
+reduce_step: 0.05
+
+# Track-Aware Initialization (TAI)
+tai_thr: 0.55
+min_track_len: 3
+
+# Camera motion compensation (static camera: none)
+gmc_method: none
+
+# ReID (model: auto uses the detector's native features)
+with_reid: True
+model: auto
